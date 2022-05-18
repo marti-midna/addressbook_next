@@ -1,0 +1,21 @@
+.input {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+
+    form {
+        width: 90%;
+    }
+
+    input[type="text"]:focus-visible {
+        outline: none;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        resize: vertical;
+    }
+}
