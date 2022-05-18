@@ -5,17 +5,17 @@ import { AiOutlineStar } from "react-icons/ai";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function CardContact({ contactsData }) {
+export default function CardContact({ contactsData, filtered }) {
   const { id, name, email, phone } = contactsData;
 
-  // function changestar(contactsData) {
-  //   if (contactsData.favorite === false) {
-  //     contactsData.favorite = true;
-  //   } else if (contactsData.favorite === true) {
-  //     contactsData.favorite = false;
-  //   }
-
-  // }
+  function changestar(contactsData) {
+    if (contactsData.favorite === false) {
+      contactsData.favorite = true;
+    } else if (contactsData.favorite === true) {
+      contactsData.favorite = false;
+    }
+    filtered(contactsData);
+  }
 
   return (
     <div className={styles.card_contact} key={id}>
@@ -35,7 +35,7 @@ export default function CardContact({ contactsData }) {
         </Link>
         <div
           className={styles.star_container}
-          onClick={() => favorite(contactsData)}
+          onClick={() => changestar(contactsData)}
         >
           <p className={styles.addstar}>
             <AiOutlineStar size="1.2rem" />
