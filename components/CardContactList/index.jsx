@@ -2,40 +2,51 @@ import { useEffect, useState } from "react";
 import { getContacts } from "../../pages/api/hello";
 import CardContact from "../CardContact";
 
-export default function CardContactList({ searchContact }) {
+export default function CardContactList({ searchContact, set }) {
   const [contactsData, setContactsData] = useState([]);
-  const [filtrati, setFiltrati] = useState([])
+  const [prova, setProva] = useState([])
+
 
   useEffect(() => {
     getContacts().then((data) => setContactsData(data));
+
   }, []);
 
-  const filtered = (contactsData) => {
-    setFiltrati((filtrati) => [...filtrati, contactsData])
-    console.log('sei in card list',contactsData);
+  function changestar(contact) {
+    if (contact.favorite === false) {
+      contact.favorite = true;
+    } else if (contact.favorite === true) {
+      contact.favorite = false;
+    };
+    console.log("true", contact);
+    filtered();
   }
 
-  useEffect(() => {
-    console.log('sei nel tuo array filtrato -->',filtrati);
-  }, [filtrati]);
+
+  const filtered = () => {
+    const arrFiltered = contactsData.filter((item) => item.favorite === true);
+
+
+    localStorage.setItem('arrFiltered', JSON.stringify(arrFiltered))
+  }
+
 
   return (
-    contactsData &&
-    contactsData
-      .filter((contact) => 
-        contact?.name
-          .toLowerCase()
-          .trim()
-          .includes(searchContact.toLowerCase().trim()) ||
-          contact?.username
-          .toLowerCase()
-          .trim()
-          .includes(searchContact.toLowerCase().trim())
-      )
-      .map((contact) => (
-        <div key={contact.id}>
-          <CardContact contactsData={contact} filtered={filtered}/>
-        </div>
-      ))
+    // contactsData &&
+    // contactsData
+    //   .filter((contact) =>
+    //     contact?.name
+    //       .toLowerCase()
+    //       .trim()
+    //       .includes(searchContact.toLowerCase().trim()) ||
+    //     contact?.username
+    //       .toLowerCase()
+    //       .trim()
+    //       .includes(searchContact.toLowerCase().trim())
+    //   )
+    //   .map((contact) => (
+    //     < key={contact.id}>
+    <CardContact contactsData={contactsData} searchContact={searchContact} filtered={filtered} changestar={changestar} />
   );
+
 }
